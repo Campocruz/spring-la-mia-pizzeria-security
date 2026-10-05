@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:insert="~{ fragments/fragments :: style }" />
+  <title>Home Page</title>
+</head>
+
+<body>
+
+  <header>
+    <div th:insert="~{ fragments/fragments :: navbar(page='pizze') }" />
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="row text-center" th:if="${pizze.size() > 0}"
+        th:insert="~{ fragments/fragments :: card_list(${pizze})}" />
+
+      <div class="row text-center" th:unless="${pizze.size() > 0}" th:insert="~{ fragments/fragments :: notFound }" />
+
+    </div>
+  </main>
+
+  <footer></footer>
+
+</body>
+
+<div th:insert="~{ fragments/fragments :: script }" />
+
+</html>

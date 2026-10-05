@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Utility Fragments</title>
+
+  <th:block th:fragment="style">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css}">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" />
+  </th:block>
+
+</head>
+
+<body>
+
+  <nav th:fragment="navbar" class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/}">Pizzeria</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class=" nav-link active" aria-current="page" th:href="@{/}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class=" nav-link" th:href="@{/pizze}">Pizze</a>
+          </li>
+          <li class="nav-item">
+            <a class=" nav-link" th:href="@{/ingredients}">Ingredienti</a>
+          </li>
+        </ul>
+        <div class="btn btn-primary" th:if="${page == 'pizze'}">
+          <a class=" nav-link" th:href="@{/pizze/create}">Nuova Pizza</a>
+        </div>
+        <div class="btn btn-secondary" th:if="${page == 'pizzaDetail'}">
+          <a class=" nav-link" th:href="@{/offers/create}">Nuova Offerta</a>
+        </div>
+        <form class="d-flex" role="search" method="GET" th:action="@{/pizze/cerca}">
+          <input class="form-control me-2" type="text" placeholder="Cerca" aria-label="Cerca" th:value="${value}"
+            name="value" />
+          <button class="btn btn-outline-success" type="submit">Cerca</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+  <div class=" col-3 mt-2" th:fragment="card_list(pizze)" th:each="pizza : ${pizze}">
+    <div class=" card position-relative" style="width: 18rem; height: 25rem;" th:object="${pizza}">
+      <span th:if="*{offers.size() > 0}" class="badge bg-success position-absolute top-0 start-0 m-2">
+        In offerta
+      </span>
+      <img th:src="*{img}" class="card-img-top img-fluid rounded-start" alt="*{img}">
+      <div class="card-body">
+        <section>
+          <h5 th:unless="*{hasOffers()}" class="card-title"
+            th:text="|*{name} - *{#numbers.formatDecimal(price, 1, 2)} €|"></h5>
+          <h5 th:if="*{hasOffers()}" class="card-title"
+            th:text="|*{name} - *{#numbers.formatDecimal(discountedPrice, 1, 2)} €|">
+          </h5>
+        </section>
+        <p class="card-text" th:text="*{description}" />
+        <form class="d-flex justify-content-around" method="post" th:action="@{/pizze/delete/{id}(id=*{id})}">
+          <a th:href="@{/pizze/{id}(id=${pizza.id})}" class="btn btn-primary"><i class="bi bi-binoculars"></i></a>
+          <a class="btn btn-primary" th:href="@{/pizze/edit/{id}(id=*{id})}">
+            <i class="bi bi-pencil-square"></i>
+          </a>
+          <button class="btn btn-danger" type="submit"><i class="bi bi-trash"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-12 mt-2" th:fragment="notFound">
+    <h1>Sicuro???</h1>
+    <p>Nessuna Pizza trovata</p>
+    <p>Cerca un altra Pizza!</p>
+  </div>
+
+
+</body>
+
+<th:block th:fragment="script">
+  <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.min.js}"></script>
+</th:block>
+
+</html>

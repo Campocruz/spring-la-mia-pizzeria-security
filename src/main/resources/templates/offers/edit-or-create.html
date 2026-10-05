@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:insert="~{ fragments/fragments :: style }" />
+  <title>Edit or Create Offer</title>
+</head>
+
+<body>
+
+  <header>
+    <div th:insert="~{ fragments/fragments :: navbar }" />
+  </header>
+
+  <main>
+    <div class="container">
+
+      <section>
+        <th:block>
+          <div class="row mt-3">
+            <h1 th:unless="${edit}">Crea offerta per la pizza "[[${offer.pizza.name}]]" </h1>
+            <h1 th:if="${edit}">Modifica offerta per la pizza "[[${offer.pizza.name}]]" </h1>
+          </div>
+        </th:block>
+      </section>
+
+      <section th:object="${offer}">
+        <form th:action="${edit} ? @{|/offers/edit/*{id}|} : @{/offers/create}" method="post">
+          <div class="row">
+
+            <input type="hidden" th:field="*{pizza.id}">
+
+            <div class="col-12">
+              <label for="title">Titolo Offerta</label>
+              <input id="title" type="text" class="form-control" th:field="*{title}" th:errorClass="is-invalid">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                <ul>
+                  <li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
+                </ul>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="description">Descrizione Offerta</label>
+              <input id="description" type="text" class="form-control" th:field="*{description}"
+                th:errorClass="is-invalid">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                <ul>
+                  <li th:each="error : ${#fields.errors('description')}" th:text="${error}" />
+                </ul>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="rate">Sconto in %</label>
+              <input id="rate" type="number" class="form-control" th:field="*{rate}" th:errorClass="is-invalid">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('rate')}">
+                <ul>
+                  <li th:each="error : ${#fields.errors('rate')}" th:text="${error}" />
+                </ul>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="startOffer">Inizio Offerta</label>
+              <input id="startOffer" type="date" class="form-control" th:field="*{startOffer}"
+                th:errorClass="is-invalid">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('startOffer')}">
+                <ul>
+                  <li th:each="error : ${#fields.errors('startOffer')}" th:text="${error}" />
+                </ul>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="endOffer">Fine Offerta</label>
+              <input id="endOffer" type="date" class="form-control" th:field="*{endOffer}" th:errorClass="is-invalid">
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('endOffer')}">
+                <ul>
+                  <li th:each="error : ${#fields.errors('endOffer')}" th:text="${error}" />
+                </ul>
+              </div>
+            </div>
+            <div class="col-12">
+              <button th:unless="${edit}" type="submit" class="btn btn-primary">Crea</button>
+              <button th:if="${edit}" type="submit" class="btn btn-primary">Modifica</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer></footer>
+
+</body>
+
+<div th:insert="~{ fragments/fragments :: script }" />
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:insert="~{ fragments/fragments :: style }" />
+  <title>Home Page</title>
+</head>
+
+<body>
+
+  <header>
+    <div th:insert="~{ fragments/fragments :: navbar}" />
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="row mt-3" th:object="${pizza}">
+        <div class="col-4">
+          <img th:src="*{img}" class="card-img-top" alt="https://picsum.photos/200/200">
+        </div>
+        <div class="col-8">
+          <section class="d-flex justify-content-between">
+            <h2 th:text="*{name}" />
+            <form class="d-flex justify-content-around" method="post" th:action="@{/pizze/delete/{id}(id=*{id})}">
+              <a class="btn btn-primary m-1" th:href="@{/pizze/edit/{id}(id=*{id})}">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <button class="btn btn-danger m-1" type="submit"><i class="bi bi-trash"></i></button>
+            </form>
+          </section>
+
+          <hr>
+
+          <section>
+            <h3>Description:</h3>
+            <ul class="">
+              <li class="text-start" th:text="|Descrizione: *{description}|" />
+              <li class="text-start" th:text="|Listino: *{price} &euro;|" />
+            </ul>
+          </section>
+
+
+          <hr>
+
+          <section>
+            <div class="d-flex justify-content-between">
+              <h3>Offerte in corso</h3>
+              <a class="btn btn-secondary" th:href="@{/pizze/{id}/offers(id=*{id})}">
+                <i class="bi bi-plus-lg"></i>
+              </a>
+            </div>
+            <table class="table" th:if="*{offers.size() > 0}">
+              <thead>
+                <tr>
+                  <th>Titolo</th>
+                  <th>Descrizione</th>
+                  <th>Sconto in %</th>
+                  <th>Data Inizio</th>
+                  <th>Data Fine</th>
+                  <th>Azioni</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr th:each="offer : *{offers}" th:object="${offer}">
+                  <td>[[*{title}]]</td>
+                  <td>[[*{description}]]</td>
+                  <td>[[*{rate}]]</td>
+                  <td>[[*{startOffer}]]</td>
+                  <td>[[*{endOffer}]]</td>
+                  <td>
+                    <form class="d-flex justify-content-around" method="post"
+                      th:action="@{/offers/delete/{id}(id=*{id})}">
+                      <a type="button" class="btn btn-secondary btn-sm" th:href="@{/offers/edit/{id}(id=*{id})}"><i
+                          class="bi bi-pencil-square"></i></a>
+                      <button class="btn btn-danger btn-sm" type="submit"><i class="bi bi-trash"></i></button>
+                    </form>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div th:unless="*{offers.size() > 0}">
+              Ancora nessuna Offerta!
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer></footer>
+
+</body>
+
+<div th:insert="~{ fragments/fragments :: script }" />
+
+</html>

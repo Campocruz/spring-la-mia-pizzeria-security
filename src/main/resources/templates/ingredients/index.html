@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:insert="~{ fragments/fragments :: style }" />
+  <title>Home Page</title>
+</head>
+
+<body>
+
+  <header>
+    <div th:insert="~{ fragments/fragments :: navbar }" />
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- <div class="btn btn-primary">
+        <a class=" nav-link" th:href="@{/ingredients/create}">Nuovo ingrediente</a>
+      </div> -->
+      <!-- th:insert="~{ fragments/fragments :: card_list(${pizze})}" -->
+      <!-- <div class="col-6" th:each="ingredient : ${ingredients}" th:text="${ingredient.name}"></div> -->
+
+      <section>
+        <div class="d-flex justify-content-between">
+          <h3>Ingredienti</h3>
+          <a class="btn btn-secondary" th:href="@{/ingredients/create}">
+            <i class="bi bi-plus-lg"></i>
+          </a>
+        </div>
+        <table class="table" th:if="${ingredients.size() > 0}">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>Nome</th>
+              <th>Azioni</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="ingredient : ${ingredients}" th:object="${ingredient}">
+              <td>[[*{id}]]</td>
+              <td>[[*{name}]]</td>
+              <td>
+                <form class="d-flex justify-content-around" method="post"
+                  th:action="@{/ingredients/delete/{id}(id=*{id})}">
+                  <a type="button" class="btn btn-secondary btn-sm" th:href="@{/ingredients/edit/{id}(id=*{id})}">
+                    <i class="bi bi-pencil-square"></i>
+                  </a>
+                  <button class="btn btn-danger btn-sm" type="submit"><i class="bi bi-trash"></i></button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div th:unless="${ingredients.size() > 0}">
+          Ancora nessuna Offerta!
+        </div>
+      </section>
+
+      <div class="row text-center" th:unless="${ingredients.size() > 0}"
+        th:insert="~{ fragments/fragments :: notFound }" />
+
+    </div>
+  </main>
+
+  <footer></footer>
+
+</body>
+
+<div th:insert="~{ fragments/fragments :: script }" />
+
+</html>
