@@ -135,3 +135,10 @@ INSERT INTO ingredients (id, name) VALUES (20, 'Mozzarella di bufala');
 INSERT INTO offers (id, title, description, rate, start_offer, end_offer, pizza_id) VALUES (1, 'Ottobre piccante', 'Sconto sulla Diavola per tutto il mese di ottobre.', 20, '2026-10-01', '2026-10-31', 3);
 INSERT INTO offers (id, title, description, rate, start_offer, end_offer, pizza_id) VALUES (2, 'Margherita day', 'Ogni giorno la Margherita a prezzo speciale.', 15, '2026-10-01', '2026-11-30', 1);
 INSERT INTO offers (id, title, description, rate, start_offer, end_offer, pizza_id) VALUES (3, 'Autunno nel bosco', 'Offerta stagionale su prosciutto e funghi.', 10, '2026-10-15', '2026-11-15', 7);
+
+INSERT INTO roles (id, name) VALUES (1, 'ADMIN'); 
+INSERT INTO roles (id, name) VALUES (2, 'USER');
+INSERT INTO users (id, username, email, password) VALUES (1, 'admin', 'admin@pizzeria.it', '{noop}admin');
+INSERT INTO users (id, username, email, password) VALUES (2, 'cliente', 'cliente@pizzeria.it', '{noop}cliente');
+INSERT INTO user_role (user_id, role_id) VALUES (1, 1);
+INSERT INTO user_role (user_id, role_id) VALUES (2, 2);
