@@ -25,7 +25,7 @@ public class User {
 
   @NotBlank(message = "The username cannot be blank.")
   @Column(name = "username", unique = true)
-  private String userName;
+  private String username;
 
   @NotBlank(message = "The email cannot be blank.")
   @Column(name = "email")
@@ -50,11 +50,11 @@ public class User {
   }
 
   public String getUserName() {
-    return userName;
+    return username;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setUserName(String username) {
+    this.username = username;
   }
 
   public String getEmail() {
